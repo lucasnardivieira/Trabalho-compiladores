@@ -1,6 +1,7 @@
 # TENTATIVA 3 E FINAL - MAIS SIMPLES, COLETANDO PRIMEIRO CADA LEXEMA E DEPOIS TRANSFORMANDO EM TOKENS
 
 import re
+import pandas as pd
 
 with open("teste.c", "r") as arquivo:
     codigo = arquivo.read()
@@ -13,21 +14,13 @@ palavras_reservadas = ['break', 'case', 'char', 'continue',
 			'switch', 'unsigned', 'void', 'while']
 separadores = [' ', '	', '.', ',', '\n', ';', '(', ')', '<', '>', '{', '}', '[', ']']
 
-
-in_keywords = []
-in_spl_symbols = []
-in_oparators = []
-in_delimiters = []
-in_identifiers = []
-in_constants = []
-
 isStr = False
-isWord = False
-isCmt = 0
 lexem = ''
 
 lexemas = []
 tokens = []
+identificadores = []
+constantes = []
 
 # ETAPA 1
 # Coleta dos lexemas
@@ -71,23 +64,51 @@ for lexem in lexemas:
 					"pos_tab": simbolos.index(lexem)
 				 }
 		tokens.append(token)
-		in_spl_symbols.append(lexem)
 
 	elif lexem in operadores:
-		in_oparators.append(lexem)
+		token  = {
+					"nome_tk": "tk_" + lexem,
+					"nome_tab": "operadores",
+					"pos_tab": operadores.index(lexem)
+				 }
+		tokens.append(token)
 
 	elif lexem in palavras_reservadas:
-		in_keywords.append(lexem)
+		token  = {
+					"nome_tk": "tk_" + lexem,
+					"nome_tab": "palavras_reservadas",
+					"pos_tab": palavras_reservadas.index(lexem)
+				 }
+		tokens.append(token)
 				
-	elif re.search("^[_a-zA-Z][_a-zA-Z0-9]*$",lexem):
-		in_identifiers.append(lexem)
+	elif re.search("^[_a-zA-Z][_a-zA-Z0-9]*$",lexem): # Expressão regular que aceita nomes de variáveis em C.
+		if lexem not in identificadores: # Se não ter o lexema na tabela de id, adicionamos.
+			identificadores.append(lexem)
+		token  = {
+					"nome_tk": "tk_id" + lexem,
+					"nome_tab": "identificadores",
+					"pos_tab": identificadores.index(lexem)
+				 }
+		tokens.append(token)
 		
 	elif lexem in separadores:
-		in_delimiters.append(lexem)
+		token  = {
+					"nome_tk": "tk_" + lexem,
+					"nome_tab": "separadores",
+					"pos_tab": separadores.index(lexem)
+				 }
+		tokens.append(token)
 		
-	else:
-		in_constants.append(lexem)
-	
-						
-print(lexemas)
-print(tokens)
+	else: # É um valor constante
+		if lexem not in constantes: # Se não ter o lexema na tabela de id, adicionamos.
+			constantes.append(lexem)
+		token  = {
+					"nome_tk": "tk_id" + lexem,
+					"nome_tab": "constantes",
+					"pos_tab": constantes.index(lexem)
+				 }
+		tokens.append(token)
+				
+df = pd.DataFrame(tokens)
+
+print(df)
