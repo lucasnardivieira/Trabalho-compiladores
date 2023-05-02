@@ -8,13 +8,12 @@ with open("teste.c", "r") as arquivo:
 
 simbolos = ['!', '@', '#', '$', '%', '&', '^', '*']
 operadores = ['+', '-', '*', '/', '=', '+=', '-=', '==', '<', '>', '<=', '>=']
-palavras_reservadas = ['break', 'case', 'char', 'continue', 
-			'double', 'else', 'float', 'for', 'if', 
-			'int', 'return', 'short', 'sizeof', 
-			'switch', 'unsigned', 'void', 'while']
+palavras_reservadas = ['int', 'float','char','if', 'else', 'for', 'while', 'main', 'void',
+		       		   'printf', 'continue', 'break', 'return', 'include']
 separadores = [' ', '	', '.', ',', '\n', ';', '(', ')', '<', '>', '{', '}', '[', ']']
 
 isStr = False
+isLib = False
 lexem = ''
 
 lexemas = []
@@ -22,26 +21,47 @@ tokens = []
 identificadores = []
 constantes = []
 
+
+
 # ETAPA 1
 # Coleta dos lexemas
 for i in codigo:
 	# ESTADO - TEXTO ENTRE ASPAS #
 	if i == '"' or i == "'":
 		if isStr:
-			lexemas.append(lexem)				# Assim que encontrar aspas fechando, adicionamos o token a lista.
+			lexemas.append(lexem)				# Assim que encontrar aspas fechando, adicionamos o lexema a lista.
 			lexem = ''
 		isStr = not isStr 						# Transformo isStr em True, e isso vai ser alterado assim que encontrar
 												# a próxima aspas fechando.
 	elif isStr:
-		lexem = lexem+i 						#Adicionando todo caractere que está depois das aspas ao token.
-    
+		lexem = lexem+i 						#Adicionando todo caractere que está depois das aspas ao lexema.
+	
+	#ESTADO - INSERÇÃO DE BIBLIOTECAS
+	elif isLib and i == '<':
+		lexemas.append(lexem)
+		lexem = ''
+		lexem = lexem+i
+		lexemas.append(lexem)
+		lexem = ''
+	
+	elif isLib and i == '.':
+		lexem = lexem + i
+
+	elif isLib and i == '>':
+		lexemas.append(lexem)
+		lexem = ''
+		lexem = lexem+i
+		lexemas.append(lexem)
+		lexem = ''
+		isLib = False
+
 	# ESTADO - É UM SÍMBOLO #
 	elif i in simbolos:
 		lexemas.append(i)
     
 	# SEPARAÇÃO DE LEXEMAS #
 	# ESTADO - É UM SÍMBOLO OU UM OPERADOR
-	elif (i in separadores) or (i in operadores):
+	elif ((i in separadores) or (i in operadores)) and (not isLib):
 		if lexem: 								# Token está preenchido e o estado atual é um delimitador, ou seja, o nome  
 			lexemas.append(lexem)				# do token já está coletado.
 			lexem = ''
@@ -53,6 +73,11 @@ for i in codigo:
 	elif  i.isalnum():
 		lexem = lexem+i
 
+	if i == '#':
+		isLib = True
+
+print(lexemas)
+print()
 
 # ETAPA 2
 # Criação dos tokens {nome_tk, nome_tab, pos_tab}
@@ -81,8 +106,8 @@ for lexem in lexemas:
 				 }
 		tokens.append(token)
 				
-	elif re.search("^[_a-zA-Z][_a-zA-Z0-9]*$",lexem): # Expressão regular que aceita nomes de variáveis em C.
-		if lexem not in identificadores: # Se não ter o lexema na tabela de id, adicionamos.
+	elif re.search("^[_a-zA-Z][_a-zA-Z0-9.]*$",lexem): # Expressão regular que aceita nomes de variáveis em C.
+		if lexem not in identificadores: 			  # Se não ter o lexema na tabela de id, adicionamos.
 			identificadores.append(lexem)
 		token  = {
 					"nome_tk": "tk_id" + lexem,
@@ -100,6 +125,7 @@ for lexem in lexemas:
 		tokens.append(token)
 		
 	else: # É um valor constante
+		print(lexem)
 		if lexem not in constantes: # Se não ter o lexema na tabela de id, adicionamos.
 			constantes.append(lexem)
 		token  = {
@@ -108,7 +134,9 @@ for lexem in lexemas:
 					"pos_tab": constantes.index(lexem)
 				 }
 		tokens.append(token)
-				
+
+print (*tokens, sep="\n")
+
 df = pd.DataFrame(tokens)
 
 print(df)
