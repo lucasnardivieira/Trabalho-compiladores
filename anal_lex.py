@@ -1,4 +1,7 @@
 # TENTATIVA 3 E FINAL - MAIS SIMPLES, COLETANDO PRIMEIRO CADA LEXEMA E DEPOIS TRANSFORMANDO EM TOKENS
+# Problemas a resolver: 1 - Não reconhece o '<=', >= , == , !=
+#						2 - Fazer a EBNF
+
 
 import re
 import pandas as pd
@@ -110,7 +113,7 @@ for lexem in lexemas:
 		if lexem not in identificadores: 			  # Se não ter o lexema na tabela de id, adicionamos.
 			identificadores.append(lexem)
 		token  = {
-					"nome_tk": "tk_id" + lexem,
+					"nome_tk": "tk_id",
 					"nome_tab": "identificadores",
 					"pos_tab": identificadores.index(lexem)
 				 }
