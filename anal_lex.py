@@ -1,8 +1,3 @@
-# TENTATIVA 3 E FINAL - MAIS SIMPLES, COLETANDO PRIMEIRO CADA LEXEMA E DEPOIS TRANSFORMANDO EM TOKENS
-# Problemas a resolver: 1 - Não reconhece o '<=', >= , == , !=
-#						2 - Fazer a EBNF
-# 						3 - Incluir linha do código no token
-
 import re
 import pandas as pd
 
@@ -11,7 +6,7 @@ with open("teste.c", "r") as arquivo:
 
 simbolos = ['!', '@', '#', '$', '%', '&', '^', '*']
 operadores = ['+', '-', '*', '/', '=', '+=', '-=', '==', '<', '>', '<=', '>=']
-palavras_reservadas = ['int', 'float','char','if', 'else', 'for', 'while', 'main', 'void',
+palavras_reservadas = ['def', 'int', 'float','char','if', 'else', 'for', 'while', 'main', 'void',
 		       		   'printf', 'continue', 'break', 'return', 'include']
 separadores = [' ', '	', '.', ',', '\n', ';', '(', ')', '<', '>', '{', '}', '[', ']']
 
@@ -77,8 +72,6 @@ for i in codigo:
 	if i == '#':
 		isLib = True
 
-print(lexemas)
-print()
 
 # ETAPA 2
 # Criação dos tokens {nome_tk, nome_tab, pos_tab}
@@ -126,7 +119,6 @@ for lexem in lexemas:
 		tokens.append(token)
 		
 	else: # É um valor constante
-		print(lexem)
 		if lexem not in constantes: # Se não ter o lexema na tabela de id, adicionamos.
 			constantes.append(lexem)
 		token  = {
@@ -135,9 +127,5 @@ for lexem in lexemas:
 					"pos_tab": constantes.index(lexem)
 				 }
 		tokens.append(token)
-
-print (*tokens, sep="\n")
-
-df = pd.DataFrame(tokens)
-
-print(df)
+print(tokens)
+# print(*tokens, sep="\n")
