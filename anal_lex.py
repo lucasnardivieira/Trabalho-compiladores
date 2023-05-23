@@ -1,7 +1,7 @@
 # TENTATIVA 3 E FINAL - MAIS SIMPLES, COLETANDO PRIMEIRO CADA LEXEMA E DEPOIS TRANSFORMANDO EM TOKENS
 # Problemas a resolver: 1 - Não reconhece o '<=', >= , == , !=
 #						2 - Fazer a EBNF
-
+# 						3 - Incluir linha do código no token
 
 import re
 import pandas as pd
@@ -23,8 +23,6 @@ lexemas = []
 tokens = []
 identificadores = []
 constantes = []
-
-
 
 # ETAPA 1
 # Coleta dos lexemas
