@@ -11,10 +11,12 @@ class TreeNode:
 
     def __repr__(self):
         return self.data
-
+# REGRA init
+# <init> ::= {<functionDeclaration>} <mainFunction>
 root = TreeNode("<init>")
 
 # REGRA main_function
+# <mainFunction> ::= <main><openParentheses><closeParentheses><openKey>{<content>} <closeKey>
 main_function = TreeNode("<mainFunction>")
 main = TreeNode("<main>")
 open_parentheses = TreeNode("<openParenthesis>")
@@ -24,6 +26,7 @@ content = TreeNode("<content>")
 close_key = TreeNode("<closeKey>")
 
 # REGRA function_declaration
+# <functionDeclaration> ::= <functionIndicator><dataType><identifier><openParentheses>[<functionParameters>]<closeParentheses><openKey>{<content>} <functionReturn><closeKey>
 function_declaration = TreeNode("<functionDeclaration>")
 function_indicator = TreeNode("<functionIndicator>")
 data_type = TreeNode("<dataType>")
@@ -37,6 +40,7 @@ function_return = TreeNode("<functionReturn>")
 close_key = TreeNode("<closeKey>")
 
 # REGRA content
+# <content> ::= <variableDeclaration>| <selectionStructure>| <loop>|<output>| <input>
 variable_declaration = TreeNode("<variableDeclaration>")
 selection_structure = TreeNode("<selectionStructure>")
 loop = TreeNode("<loop>")
@@ -44,7 +48,7 @@ output = TreeNode("<output>")
 input_node = TreeNode("<input>")
 
 # REGRA function_parameters
-<dataType><identifier>[<comma><functionParameter>]
+# function_parameters> ::= <dataType><identifier>[<comma><functionParameter>]
 function_parameters = TreeNode("<functionParameters>")
 data_type = TreeNode("<dataType>")
 identifier = TreeNode("<identifier>")
@@ -156,25 +160,64 @@ content = TreeNode("<content>")
 ck = TreeNode("<ck>")
 
 # REGRA else
-<elseDeclaration> ::= <rwElse><ok>[<content>] <ck>
+# <elseDeclaration> ::= <rwElse><ok>[<content>] <ck>
+else_declaration = TreeNode("<elseDeclaration>")
+rw_else = TreeNode("<rwElse>")
+ok = TreeNode("<ok>")
+content = TreeNode("<content>")
+ck = TreeNode("<ck>")
 
 # REGRA loop
-<loop> ::= <rwWhile><op><logicExpression><cp><ok><content><ck>
+# <loop> ::= <rwWhile><op><logicExpression><cp><ok><content><ck>
+loop = TreeNode("<loop>")
+rw_while = TreeNode("<rwWhile>")
+op = TreeNode("<op>")
+logic_expression = TreeNode("<logicExpression>")
+cp = TreeNode("<cp>")
+ok = TreeNode("<ok>")
+content = TreeNode("<content>")
+ck = TreeNode("<ck>")
 
 # REGRA output
-<output> ::= <rwPrint><op><logicExpression>{<comma><logicExpression>} <cp><end>
+# <output> ::= <rwPrint><op><logicExpression>{<comma><logicExpression>} <cp><end>
+output = TreeNode("<output>")
+rw_print = TreeNode("<rwPrint>")
+op = TreeNode("<op>")
+logic_expression = TreeNode("<logicExpression>")
+comma = TreeNode("<comma>")
+cp = TreeNode("<cp>")
+end = TreeNode("<end>")
 
 # REGRA input
-<input> ::= <rwScanf><op><identifier><cp><end>
+# <input> ::= <rwScanf><op><identifier><cp><end>
+input_declaration = TreeNode("<input>")
+rw_scanf = TreeNode("<rwScanf>")
+op = TreeNode("<op>")
+identifier = TreeNode("<identifier>")
+cp = TreeNode("<cp>")
+end = TreeNode("<end>")
 
 # REGRA valueToVar
-<valueToVariable> ::= <identifier><assignment><logicExpression><end>
+# <valueToVariable> ::= <identifier><assignment><logicExpression><end>
+value_to_variable = TreeNode("<valueToVariable>")
+identifier = TreeNode("<identifier>")
+assignment = TreeNode("<assignment>")
+logic_expression = TreeNode("<logicExpression>")
+end = TreeNode("<end>")
 
 # REGRA functionCall
-<functionCall> ::= <identifier><openParentheses>[<parameterPassing>]<closeParentheses>
+# <functionCall> ::= <identifier><openParentheses>[<parameterPassing>]<closeParentheses>
+function_call = TreeNode("<functionCall>")
+identifier = TreeNode("<identifier>")
+open_parentheses = TreeNode("<openParentheses>")
+parameter_passing = TreeNode("<parameterPassing>")
+close_parentheses = TreeNode("<closeParentheses>")
 
 # REGRA parameterPassing
-<parameterPassing> ::= <logicExpression>{<comma><logicExpression>}
+# <parameterPassing> ::= <logicExpression>{<comma><logicExpression>}
+parameter_passing = TreeNode("<parameterPassing>")
+logic_expression = TreeNode("<logicExpression>")
+comma = TreeNode("<comma>")
 
 
 
