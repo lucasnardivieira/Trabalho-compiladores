@@ -1,8 +1,7 @@
-#include <stdio.h>
 
-int main()
+main()
 {
-    char nome = "Lucas";
-    int idade = 25;
-    return;
+    int ano = 2023;
 }
+
+// ['mainFunction', 'openParentheses', 'closeParentheses', 'openKey', 'closeKey']

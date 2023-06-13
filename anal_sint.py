@@ -10,7 +10,9 @@ class TreeNode:
         self.children.remove(node)
 
     def __repr__(self):
+
         return self.data
+    
 # REGRA init
 # <init> ::= {<functionDeclaration>} <mainFunction>
 root = TreeNode("<init>")
@@ -40,7 +42,7 @@ function_return = TreeNode("<functionReturn>")
 close_key = TreeNode("<closeKey>")
 
 # REGRA content
-# <content> ::= <variableDeclaration>| <selectionStructure>| <loop>|<output>| <input>
+# <content> ::= <variableDeclaration> | <selectionStructure> | <loop> | <output> | <input>
 variable_declaration = TreeNode("<variableDeclaration>")
 selection_structure = TreeNode("<selectionStructure>")
 loop = TreeNode("<loop>")
@@ -63,8 +65,7 @@ logic_expression = TreeNode("<logicExpression>")
 end = TreeNode("<end>")
 
 # REGRA variableDeclaration
-# <variableDeclaration> ::= <dataType><identifier><end>|<dataType><identifier>
-# <assignment><logicExpression><end>
+# <variableDeclaration> ::= <dataType><identifier><end>|<dataType><identifier> <assignment><logicExpression><end>
 variable_declaration = TreeNode("<variableDeclaration>")
 data_type = TreeNode("<dataType>")
 identifier = TreeNode("<identifier>")
@@ -219,10 +220,59 @@ parameter_passing = TreeNode("<parameterPassing>")
 logic_expression = TreeNode("<logicExpression>")
 comma = TreeNode("<comma>")
 
+lista_tokens = ['main', '(', ')', '{', 'int', 'id', '=',  '2023', ';',  '}']
+
+i = 0
+j = 0
+while True:
+    if lista_tokens[i] == 'main':
+        root.add_child(main_function)
+        main_function.add_child(main)
+        main.add_child(TreeNode(lista_tokens[i]))
+        i = i + 1
+        main_function.add_child(open_parentheses)
+        open_parentheses.add_child(TreeNode(lista_tokens[i]))
+        i = i + 1
+        main_function.add_child(close_parentheses)
+        close_parentheses.add_child(TreeNode(lista_tokens[i]))
+        i = i + 1
+        main_function.add_child(open_key)
+        open_key.add_child(TreeNode(lista_tokens[i]))
+        i = i + 1
+        main_function.add_child(content)
+        if lista_tokens[i] == 'int' or 'char' or 'float':
+            content.add_child(data_type)
+            data_type.add_child(TreeNode(lista_tokens[i]))
+            i = i + 1
+            content.add_child(identifier)
+            identifier.add_child(TreeNode(lista_tokens[i]))
+            i = i + 1
+            content.add_child(assignment)
+            assignment.add_child(TreeNode(lista_tokens[i]))
+            i = i + 1
+            content.add_child(logic_expression)
+            logic_expression.add_child(TreeNode(lista_tokens[i]))
+            i = i + 1
+            content.add_child(end)
+            end.add_child(TreeNode(lista_tokens[i]))
+            i = i + 1
+
+        main_function.add_child(close_key)
+        close_key.add_child(TreeNode(lista_tokens[i]))
+        i = i + 1
+    break
+
+def print_tree(node, level=0):
+    print("  " * level + str(node))
+    for child in node.children:
+        print_tree(child, level + 1)
+
+print_tree(root)
+
+'''
 
 ## EXEMPLO CRIANDO UMA ÁRVORE ##
 root.add_child(function_declaration)
-root.add_child(main_function)
 
 main_function.add_child(main)
 main_function.add_child(open_parentheses)
@@ -252,4 +302,4 @@ def print_tree(node, level=0):
     for child in node.children:
         print_tree(child, level + 1)
 
-print_tree(root)
+print_tree(root)'''
