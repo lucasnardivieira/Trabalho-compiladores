@@ -45,57 +45,124 @@ input_node = TreeNode("<input>")
 
 # REGRA function_parameters
 <dataType><identifier>[<comma><functionParameter>]
+function_parameters = TreeNode("<functionParameters>")
+data_type = TreeNode("<dataType>")
+identifier = TreeNode("<identifier>")
+comma = TreeNode("<comma>")
+function_parameters = TreeNode("<functionParameters>")
 
 # REGRA functionReturn
-<giveBack><logicExpression><end>
+# function_return> ::= <giveBack><logicExpression><end>
+function_return = TreeNode("<function_return>")
+give_back = TreeNode("<giveBack>")
+logic_expression = TreeNode("<logicExpression>")
+end = TreeNode("<end>")
 
 # REGRA variableDeclaration
-<dataType><identifier><end>|<dataType><identifier>
-<assignment><logicExpression><end>
+# <variableDeclaration> ::= <dataType><identifier><end>|<dataType><identifier>
+# <assignment><logicExpression><end>
+variable_declaration = TreeNode("<variableDeclaration>")
+data_type = TreeNode("<dataType>")
+identifier = TreeNode("<identifier>")
+end = TreeNode("<end>")
+assignment = TreeNode("<assignment>")
+logic_expression = TreeNode("<logicExpression>")
 
 # REGRA mathExpression
-[<addition>| <subtraction>] <term>{(<addition>| <subtraction>) <term>}
+# <mathExpression> ::= [<addition>| <subtraction>] <term>{(<addition>| <subtraction>) <term>}
+math_expression = TreeNode("<mathExpression>")
+addition = TreeNode("<addition>")
+subtraction = TreeNode("<subtraction>")
+term = TreeNode("<term>")
 
 # REGRA term
-<factor>{(<multipliation>| <division>) [<addition>|
-<subtraction>] <factor>}
+# <term> ::= <factor>{(<multipliation>| <division>) [<addition>|<subtraction>] <factor>}
+term = TreeNode("<term>")
+factor = TreeNode("<factor>")
+multiplication = TreeNode("<multiplication>")
+division = TreeNode("<division>")
+addition = TreeNode("<addition>")
+subtraction = TreeNode("<subtraction>")
 
 # REGRA factor
-<openParentheses><mathExpression><closeParentheses>|
-<identifier>| <real>| <integer>| <string>| <functionCall>
+# <factor> ::= <openParentheses><mathExpression><closeParentheses>|<identifier>| <real>| <integer>| <string>| <functionCall>
+factor = TreeNode("<factor>")
+open_parentheses = TreeNode("<openParentheses>")
+math_expression = TreeNode("<mathExpression>")
+close_parentheses = TreeNode("<closeParentheses>")
+identifier = TreeNode("<identifier>")
+real = TreeNode("<real>")
+integer = TreeNode("<integer>")
+string = TreeNode("<string>")
+function_call = TreeNode("<functionCall>")
 
 # REGRA logicalExpression
-<expression>{(<or>| <and>| <addition>| subtraction |
-<multiplication>| <division>) <expression>}
+# <logicalExpression> ::= <expression>{(<or>| <and>| <addition>| subtraction |<multiplication>| <division>) <expression>}
+logical_expression = TreeNode("<logicalExpression>")
+expression = TreeNode("<expression>")
+or_operator = TreeNode("<or>")
+and_operator = TreeNode("<and>")
+addition = TreeNode("<addition>")
+subtraction = TreeNode("<subtraction>")
+multiplication = TreeNode("<multiplication>")
+division = TreeNode("<division>")
 
 # REGRA expression
-<relation>{(<lessThan>| <lessThanOrEqual>| <greaterThan>| <greaterThanOrEqual>| <equal>| <notEqual>) <relation>}
+# <expression> ::= <relation>{(<lessThan>| <lessThanOrEqual>| <greaterThan>| <greaterThanOrEqual>| <equal>| <notEqual>) <relation>}
+expression = TreeNode("<expression>")
+relation = TreeNode("<relation>")
+less_than = TreeNode("<lessThan>")
+less_than_or_equal = TreeNode("<lessThanOrEqual>")
+greater_than = TreeNode("<greaterThan>")
+greater_than_or_equal = TreeNode("<greaterThanOrEqual>")
+equal = TreeNode("<equal>")
+not_equal = TreeNode("<notEqual>")
 
 # REGRA relation
-<openParentheses><logicExpression><closeParentheses>|
-<mathExpression>
+# <relation> ::= <openParentheses><logicExpression><closeParentheses>|<mathExpression>
+relation = TreeNode("<relation>")
+open_parentheses = TreeNode("<openParentheses>")
+logic_expression = TreeNode("<logicExpression>")
+close_parentheses = TreeNode("<closeParentheses>")
+math_expression = TreeNode("<mathExpression>")
 
 # REGRA selectionStructure
-<selectionStructure> ::= <ifDeclaration>{<elifDeclaration>} [<elseDeclaration>]
+# <selectionStructure> ::= <ifDeclaration>{<elifDeclaration>} [<elseDeclaration>]
+selection_structure = TreeNode("<selectionStructure>")
+if_declaration = TreeNode("<ifDeclaration>")
+elif_declaration = TreeNode("<elifDeclaration>")
+else_declaration = TreeNode("<elseDeclaration>")
 
 # REGRA if
-<ifDeclaration> ::= <rwIf><op><logicExpression><cp><ok>
-[<content>] <ck>
+# <ifDeclaration> ::= <rwIf><op><logicExpression><cp><ok>[<content>] <ck>
+if_declaration = TreeNode("<ifDeclaration>")
+rw_if = TreeNode("<rwIf>")
+op = TreeNode("<op>")
+logic_expression = TreeNode("<logicExpression>")
+cp = TreeNode("<cp>")
+ok = TreeNode("<ok>")
+content = TreeNode("<content>")
+ck = TreeNode("<ck>")
 
 # REGRA elif
-<elifDeclaration> ::= <rwElseIf><op><logicExpression><cp><ok>
-[<content>] <ck>
+# <elifDeclaration> ::= <rwElseIf><op><logicExpression><cp><ok>[<content>] <ck>
+elif_declaration = TreeNode("<elifDeclaration>")
+rw_else_if = TreeNode("<rwElseIf>")
+op = TreeNode("<op>")
+logic_expression = TreeNode("<logicExpression>")
+cp = TreeNode("<cp>")
+ok = TreeNode("<ok>")
+content = TreeNode("<content>")
+ck = TreeNode("<ck>")
 
 # REGRA else
 <elseDeclaration> ::= <rwElse><ok>[<content>] <ck>
 
 # REGRA loop
-<loop> ::= <rwWhile><op><logicExpression><cp><ok>
-<content><ck>
+<loop> ::= <rwWhile><op><logicExpression><cp><ok><content><ck>
 
 # REGRA output
-<output> ::= <rwPrint><op><logicExpression>
-{<comma><logicExpression>} <cp><end>
+<output> ::= <rwPrint><op><logicExpression>{<comma><logicExpression>} <cp><end>
 
 # REGRA input
 <input> ::= <rwScanf><op><identifier><cp><end>
@@ -104,8 +171,7 @@ input_node = TreeNode("<input>")
 <valueToVariable> ::= <identifier><assignment><logicExpression><end>
 
 # REGRA functionCall
-<functionCall> ::= <identifier><openParentheses>[<parameterPassing>]
-<closeParentheses>
+<functionCall> ::= <identifier><openParentheses>[<parameterPassing>]<closeParentheses>
 
 # REGRA parameterPassing
 <parameterPassing> ::= <logicExpression>{<comma><logicExpression>}
