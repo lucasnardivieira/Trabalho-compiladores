@@ -12,7 +12,7 @@ class TreeNode:
     def __repr__(self):
         return self.data
 
-root = TreeNode("<init>")
+root = TreeNode("init")
 
 # REGRA main_function
 main_function = TreeNode("<mainFunction>")
@@ -24,7 +24,7 @@ content = TreeNode("<content>")
 close_key = TreeNode("<closeKey>")
 
 # REGRA function_declaration
-function_declaration = TreeNode("<functionDeclaration>")
+function_declaration = TreeNode("functionDeclaration")
 function_indicator = TreeNode("<functionIndicator>")
 data_type = TreeNode("<dataType>")
 identifier = TreeNode("<identifier>")
@@ -42,75 +42,6 @@ selection_structure = TreeNode("<selectionStructure>")
 loop = TreeNode("<loop>")
 output = TreeNode("<output>")
 input_node = TreeNode("<input>")
-
-# REGRA function_parameters
-<dataType><identifier>[<comma><functionParameter>]
-
-# REGRA functionReturn
-<giveBack><logicExpression><end>
-
-# REGRA variableDeclaration
-<dataType><identifier><end>|<dataType><identifier>
-<assignment><logicExpression><end>
-
-# REGRA mathExpression
-[<addition>| <subtraction>] <term>{(<addition>| <subtraction>) <term>}
-
-# REGRA term
-<factor>{(<multipliation>| <division>) [<addition>|
-<subtraction>] <factor>}
-
-# REGRA factor
-<openParentheses><mathExpression><closeParentheses>|
-<identifier>| <real>| <integer>| <string>| <functionCall>
-
-# REGRA logicalExpression
-<expression>{(<or>| <and>| <addition>| subtraction |
-<multiplication>| <division>) <expression>}
-
-# REGRA expression
-<relation>{(<lessThan>| <lessThanOrEqual>| <greaterThan>| <greaterThanOrEqual>| <equal>| <notEqual>) <relation>}
-
-# REGRA relation
-<openParentheses><logicExpression><closeParentheses>|
-<mathExpression>
-
-# REGRA selectionStructure
-<selectionStructure> ::= <ifDeclaration>{<elifDeclaration>} [<elseDeclaration>]
-
-# REGRA if
-<ifDeclaration> ::= <rwIf><op><logicExpression><cp><ok>
-[<content>] <ck>
-
-# REGRA elif
-<elifDeclaration> ::= <rwElseIf><op><logicExpression><cp><ok>
-[<content>] <ck>
-
-# REGRA else
-<elseDeclaration> ::= <rwElse><ok>[<content>] <ck>
-
-# REGRA loop
-<loop> ::= <rwWhile><op><logicExpression><cp><ok>
-<content><ck>
-
-# REGRA output
-<output> ::= <rwPrint><op><logicExpression>
-{<comma><logicExpression>} <cp><end>
-
-# REGRA input
-<input> ::= <rwScanf><op><identifier><cp><end>
-
-# REGRA valueToVar
-<valueToVariable> ::= <identifier><assignment><logicExpression><end>
-
-# REGRA functionCall
-<functionCall> ::= <identifier><openParentheses>[<parameterPassing>]
-<closeParentheses>
-
-# REGRA parameterPassing
-<parameterPassing> ::= <logicExpression>{<comma><logicExpression>}
-
-
 
 root.add_child(function_declaration)
 root.add_child(main_function)
