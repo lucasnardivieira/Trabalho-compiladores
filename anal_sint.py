@@ -220,7 +220,7 @@ logic_expression = TreeNode("<logicExpression>")
 comma = TreeNode("<comma>")
 
 
-
+## EXEMPLO CRIANDO UMA ÁRVORE ##
 root.add_child(function_declaration)
 root.add_child(main_function)
 
