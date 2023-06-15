@@ -220,10 +220,9 @@ parameter_passing = TreeNode("<parameterPassing>")
 logic_expression = TreeNode("<logicExpression>")
 comma = TreeNode("<comma>")
 
-lista_tokens = ['main', '(', ')', '{', 'int', 'id', '=',  '2023', ';',  '}']
+lista_tokens = ['TK_RW_MAIN', 'TK_OP', 'TK_CP', 'TK_OK', 'TK_RW_INTEGER', 'TK_IDENTIFIER', 'TK_ASSIGNMENT',  'TK_INTEGER', 'TK_END',  'TK_CK']
 
 i = 0
-j = 0
 while True:
     if lista_tokens[i] == 'main':
         root.add_child(main_function)
@@ -269,37 +268,25 @@ def print_tree(node, level=0):
 
 print_tree(root)
 
-'''
-
-## EXEMPLO CRIANDO UMA ÁRVORE ##
-root.add_child(function_declaration)
-
-main_function.add_child(main)
-main_function.add_child(open_parentheses)
-main_function.add_child(close_parentheses)
-main_function.add_child(open_key)
-main_function.add_child(content)
-main_function.add_child(close_key)
-
-function_indicator.add_child(data_type)
-function_indicator.add_child(identifier)
-function_indicator.add_child(open_parentheses)
-function_indicator.add_child(function_parameters)
-function_indicator.add_child(close_parentheses)
-function_indicator.add_child(open_key)
-function_indicator.add_child(content)
-function_indicator.add_child(function_return)
-function_indicator.add_child(close_key)
-
-content.add_child(variable_declaration)
-content.add_child(selection_structure)
-content.add_child(loop)
-content.add_child(output)
-content.add_child(input_node)
-
-def print_tree(node, level=0):
-    print("  " * level + str(node))
-    for child in node.children:
-        print_tree(child, level + 1)
-
-print_tree(root)'''
+# <init> ::= {<functionDeclaration>} <mainFunction>
+# <mainFunction> ::= <main><openParentheses><closeParentheses><openKey>{<content>} <closeKey>
+# <functionDeclaration> ::= <functionIndicator><dataType><identifier><openParentheses>[<functionParameters>]<closeParentheses><openKey>{<content>} <functionReturn><closeKey>
+# <content> ::= <variableDeclaration> | <selectionStructure> | <loop> | <output> | <input>
+# function_parameters> ::= <dataType><identifier>[<comma><functionParameter>]
+# function_return> ::= <giveBack><logicExpression><end>
+# <variableDeclaration> ::= <dataType><identifier><end>|<dataType><identifier> <assignment><logicExpression><end>
+# <mathExpression> ::= [<addition>| <subtraction>] <term>{(<addition>| <subtraction>) <term>}
+# <term> ::= <factor>{(<multipliation>| <division>) [<addition>|<subtraction>] <factor>}
+# <factor> ::= <openParentheses><mathExpression><closeParentheses>|<identifier>| <real>| <integer>| <string>| <functionCall>
+# <logicalExpression> ::= <expression>{(<or>| <and>| <addition>| subtraction |<multiplication>| <division>) <expression>}
+# <relation> ::= <openParentheses><logicExpression><closeParentheses>|<mathExpression>
+# <selectionStructure> ::= <ifDeclaration>{<elifDeclaration>} [<elseDeclaration>]
+# <ifDeclaration> ::= <rwIf><op><logicExpression><cp><ok>[<content>] <ck>
+# <elifDeclaration> ::= <rwElseIf><op><logicExpression><cp><ok>[<content>] <ck>
+# <elseDeclaration> ::= <rwElse><ok>[<content>] <ck>
+# <loop> ::= <rwWhile><op><logicExpression><cp><ok><content><ck>
+# <output> ::= <rwPrint><op><logicExpression>{<comma><logicExpression>} <cp><end>
+# <input> ::= <rwScanf><op><identifier><cp><end>
+# <valueToVariable> ::= <identifier><assignment><logicExpression><end>
+# <functionCall> ::= <identifier><openParentheses>[<parameterPassing>]<closeParentheses>
+# <parameterPassing> ::= <logicExpression>{<comma><logicExpression>}

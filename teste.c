@@ -1,7 +1,5 @@
-
-main()
-{
-    int ano = 2023;
+def int add(int a, int b){
+    int result = a + b;
+    return result;
 }
 
-// ['mainFunction', 'openParentheses', 'closeParentheses', 'openKey', 'closeKey']
