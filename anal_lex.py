@@ -45,10 +45,7 @@ def gera_lexemas(vetor):
 
 lexemas = []
 l_lexemas = []
-tabela_simbolos = []
 identificadores = []
-inteiros = []
-strings = []
 with open("teste.c", "r") as arquivo:
     codigo = arquivo.read()
     codigo = split_custom(codigo)
