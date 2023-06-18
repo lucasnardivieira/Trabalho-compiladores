@@ -1,5 +1,3 @@
-# É ESTE
-
 import re
 
 with open("teste.c", "r") as arquivo:
