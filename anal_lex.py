@@ -1,21 +1,5 @@
 import re
 
-class SymbolTableEntry:
-    def __init__(self, name, symbol_type):
-        self.name = name
-        self.symbol_type = symbol_type
-
-class SymbolTable:
-    def __init__(self):
-        self.entries = []
-
-    def add_entry(self, name, symbol_type):
-        entry = SymbolTableEntry(name, symbol_type)
-        self.entries.append(entry)
-
-    def get_entries(self):
-        return self.entries
-
 def split_custom(input_str):
     output = []
     current_str = ""
