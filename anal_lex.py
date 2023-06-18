@@ -1,5 +1,21 @@
 import re
 
+class SymbolTableEntry:
+    def __init__(self, name, symbol_type):
+        self.name = name
+        self.symbol_type = symbol_type
+
+class SymbolTable:
+    def __init__(self):
+        self.entries = []
+
+    def add_entry(self, name, symbol_type):
+        entry = SymbolTableEntry(name, symbol_type)
+        self.entries.append(entry)
+
+    def get_entries(self):
+        return self.entries
+
 def split_custom(input_str):
     output = []
     current_str = ""
@@ -16,7 +32,7 @@ def split_custom(input_str):
 
 def concatena_strings(vetor):
     i = 0
-    while i < len(vetor)-1:
+    while i < len(vetor):
         if vetor[i][-1] in ['!', '=', '<', '>'] and vetor[i+1][0] == '=':
             vetor[i] = vetor[i] + vetor[i+1]
             vetor.pop(i+1)
@@ -24,10 +40,34 @@ def concatena_strings(vetor):
             i += 1
     return vetor
 
+def gera_lexemas(vetor):
+    i = 0
+    linhas = 1
+    while i < len(vetor):
+        if vetor[i] == '\n':
+            linhas=linhas+1
+            i=i+1
+        elif vetor[i] != (' ' or '\t' or ' '):
+            lexemas.append(vetor[i])
+            l_lexemas.append(linhas)
+            i=i+1
+        else:
+            i=i+1
+
+
+
+
+    return vetor
+
+lexemas = []
+l_lexemas = []
+tabela_simbolos = []
+identificadores = []
 with open("teste.c", "r") as arquivo:
     codigo = arquivo.read()
     codigo = split_custom(codigo)
     codigo = concatena_strings(codigo)
+    gera_lexemas(codigo)
 
 keywords = {
         'main': 'TK_RW_MAIN',
@@ -73,18 +113,56 @@ regex = {
     }
 
 tokens = []
-for word in codigo:
+token = {}
+for word in lexemas:
         if word in keywords:
-            tokens.append(keywords[word])
+            token  = {
+					"token": keywords[word],
+					"nome_tab": "keywords",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
         elif re.match(regex['identifier'], word):
-            tokens.append('TK_IDENTIFIER')
+            token  = {
+					"token": 'TK_IDENTIFIER_'+str(lexemas.index(word)),
+					"nome_tab": "regex",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
         elif re.match(regex['integer'], word):
-            tokens.append('TK_INTEGER')
+            token  = {
+					"token": 'TK_INTEGER_'+str(lexemas.index(word)),
+					"nome_tab": "regex",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
         elif re.match(regex['string'], word):
-            tokens.append('TK_STRING')
+            token  = {
+					"token": 'TK_STRING_'+str(lexemas.index(word)),
+					"nome_tab": "regex",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
         elif word in operators:
-            tokens.append(operators[word])
+            token  = {
+					"token": operators[word],
+					"nome_tab": "operators",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
         elif word in separators:
-            tokens.append(separators[word])
+            token  = {
+					"token": separators[word],
+					"nome_tab": "separators",
+                    "lexema": word,
+                    "linha": l_lexemas[lexemas.index(word)]
+				 }
+            tokens.append(token)
+
 
 print(tokens)
