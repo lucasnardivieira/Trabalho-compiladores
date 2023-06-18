@@ -63,6 +63,8 @@ lexemas = []
 l_lexemas = []
 tabela_simbolos = []
 identificadores = []
+inteiros = []
+strings = []
 with open("teste.c", "r") as arquivo:
     codigo = arquivo.read()
     codigo = split_custom(codigo)
@@ -124,24 +126,30 @@ for word in lexemas:
 				 }
             tokens.append(token)
         elif re.match(regex['identifier'], word):
+            if(word not in identificadores):
+                identificadores.append(word)
             token  = {
-					"token": 'TK_IDENTIFIER_'+str(lexemas.index(word)),
+					"token": 'TK_IDENTIFIER_'+str(identificadores.index(word)),
 					"nome_tab": "regex",
                     "lexema": word,
                     "linha": l_lexemas[lexemas.index(word)]
 				 }
             tokens.append(token)
         elif re.match(regex['integer'], word):
+            if(word not in identificadores):
+                identificadores.append(word)
             token  = {
-					"token": 'TK_INTEGER_'+str(lexemas.index(word)),
+					"token": 'TK_INTEGER_'+str(identificadores.index(word)),
 					"nome_tab": "regex",
                     "lexema": word,
                     "linha": l_lexemas[lexemas.index(word)]
 				 }
             tokens.append(token)
         elif re.match(regex['string'], word):
+            if(word not in identificadores):
+                identificadores.append(word)
             token  = {
-					"token": 'TK_STRING_'+str(lexemas.index(word)),
+					"token": 'TK_STRING_'+str(identificadores.index(word)),
 					"nome_tab": "regex",
                     "lexema": word,
                     "linha": l_lexemas[lexemas.index(word)]
@@ -166,3 +174,4 @@ for word in lexemas:
 
 
 print(tokens)
+print(identificadores)
