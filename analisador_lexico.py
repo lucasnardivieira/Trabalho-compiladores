@@ -119,11 +119,11 @@ for i in codigo:
 	if i == '#':
 		isLib = True
 
-	if i>127:
+	if ord(i) > 127:
 		flag_erro = True
-		break;
-if flag_error:
-	print("ERRO: CARACTERE INVALIDO")
+		break
+if(flag_erro):
+	print("ERRO: CARACTERE INVALIDO: ", i)
 
 # ETAPA 2
 # Criação dos tokens {nome_tk, nome_tab, pos_tab}
