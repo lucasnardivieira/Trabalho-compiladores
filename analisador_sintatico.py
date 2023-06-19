@@ -110,7 +110,7 @@ class Parser:
                 node.add_child(self.selectionStructure())
             elif self.current_token.token_type == 'TK_WHILE':
                 node.add_child(self.loop())
-            elif self.current_token.token_type == 'identifier':
+            elif self.current_token.token_type == 'TK_IDENTIFIER':
                 node.add_child(self.functionCall())
         return node
 
@@ -124,8 +124,7 @@ class Parser:
         self.match('TK_IDENTIFIER')
         if self.current_token and self.current_token.token_type == "TK_ASSIGNMENT":
             node.add_child(self.assignment_node())
-            node.add_child(self.logicExpression())
-            
+            node.add_child(self.logicExpression())      
         self.match('TK_END')
         return node
     
@@ -168,7 +167,7 @@ class Parser:
     def logicExpression(self):
         node = Node(f'<logicExpression> ({self.current_token.value})')
         node.add_child(self.expression())
-        while self.current_token and self.current_token.token_type in ['or', 'and', 'TK_MATH_ADD', 'subtraction', 'multiplication', 'division']:
+        while self.current_token and self.current_token.token_type in ['TK_LOGIC_OR', 'TK_LOGIC_AND', 'TK_MATH_ADD', 'TK_MATH_SUB', 'TK_MATH_MUL', 'TK_MATH_DIV']:
             operator_node = Node(f'<operator> ({self.current_token.value})')
             operator_node.add_child(self.current_token)
             node.add_child(operator_node)
@@ -184,7 +183,7 @@ class Parser:
                 node.add_child(self.functionCall())
                 return node
         node.add_child(self.relation())
-        while self.current_token and self.current_token.token_type in ['TK_LOGIC_LT', 'TK_LOGIC_LTE', 'TK_LOGIC_GT', 'TK_LOGIC_GTOrEqual', 'TK_LOGIC_EQ', 'TK_LOGIC_DIF']:
+        while self.current_token and self.current_token.token_type in ['TK_LOGIC_LT', 'TK_LOGIC_LTE', 'TK_LOGIC_GT', 'TK_LOGIC_GT', 'TK_LOGIC_EQ', 'TK_LOGIC_DIF']:
             operator_node = Node(f'<operator> ({self.current_token.value})')
             operator_node.add_child(self.current_token)
             node.add_child(operator_node)
@@ -206,13 +205,13 @@ class Parser:
     # <mathExpression> ::= [<TK_MATH_ADD>| <subtraction>] <term> {(<TK_MATH_ADD>| <subtraction>) <term>}
     def mathExpression(self):
         node = Node('<mathExpression>')
-        if self.current_token and self.current_token.token_type in ['TK_MATH_ADD', 'subtraction']:
+        if self.current_token and self.current_token.token_type in ['TK_MATH_ADD', 'TK_MATH_SUB']:
             operator_node = Node(f'<operator> ({self.current_token.value})')
             operator_node.add_child(self.current_token)
             node.add_child(operator_node)
             self.advance()
         node.add_child(self.term())
-        while self.current_token and self.current_token.token_type in ['TK_MATH_ADD', 'subtraction']:
+        while self.current_token and self.current_token.token_type in ['TK_MATH_ADD', 'TK_MATH_SUB']:
             operator_node = Node(f'<operator> ({self.current_token.value})')
             operator_node.add_child(self.current_token)
             node.add_child(operator_node)
@@ -224,7 +223,7 @@ class Parser:
     def term(self):
         node = Node('<term>')
         node.add_child(self.factor())
-        while self.current_token and self.current_token.token_type in ['multiplication', 'division']:
+        while self.current_token and self.current_token.token_type in ['TK_MATH_MUL', 'TK_MATH_DIV']:
             operator_node = Node(f'<operator> ({self.current_token.value})')
             operator_node.add_child(self.current_token)
             node.add_child(operator_node)
@@ -243,7 +242,6 @@ class Parser:
             node.add_child(self.current_token)
             self.advance()
         return node
-    
     #################################################################################################
     #################################################################################################
 
@@ -272,7 +270,7 @@ class Parser:
     # <elifDeclaration> ::= <rwElif><TK_OP><logicExpression><TK_CP><TK_OK> [<content>] <TK_CK>
     def elifDeclaration(self):
         node = Node('<elifDeclaration>')
-        self.match('rwElif')
+        self.match('TK_ELIF')
         self.match('TK_OP')
         node.add_child(self.logicExpression())
         self.match('TK_CP')
@@ -299,7 +297,16 @@ class Parser:
         self.match('TK_CP')
         self.match('TK_OK')
         node.add_child(self.content())
+        if self.current_token and self.current_token.token_type == 'TK_BREAK':
+            node.add_child(self.breakStatement())
         self.match('TK_CK')
+        return node
+    
+    # <breakStatement> ::= <TK_BREAK><TK_END>
+    def breakStatement(self):
+        node = Node('<breakStatement>')
+        self.match('TK_BREAK')
+        self.match('TK_END')
         return node
     
     # <functionCall> ::= <identifier><openParentheses>[<parameterPassing>]<closeParentheses>
@@ -313,15 +320,14 @@ class Parser:
         if self.current_token and self.current_token.token_type != 'TK_CP':
             node.add_child(self.parameterPassing())
         self.match('TK_CP')
-        self.match('TK_END')
         return node
     
     # <parameterPassing> ::= <logicExpression>{<comma><logicExpression>}
     def parameterPassing(self):
         node = Node('<parameterPassing>')
         node.add_child(self.logicExpression())
-        while self.current_token and self.current_token.token_type == 'comma':
-            self.match('comma')
+        while self.current_token and self.current_token.token_type == 'TK_COMMA':
+            self.match('TK_COMMA')
             node.add_child(self.logicExpression())
         return node
 
