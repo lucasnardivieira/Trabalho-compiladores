@@ -37,7 +37,7 @@ class Parser:
 
     def match(self, expected_token): # Compara o token atual com o Token desejado, caso FALSE, erro sintático
         if self.current_token and self.current_token.token_type == expected_token:
-            print("Token atual:" + self.current_token.token_type + "( " + self.current_token.value + " )") # Para acompanhar o estado atual
+            # print("Token atual:" + self.current_token.token_type + "( " + self.current_token.value + " )") # Para acompanhar o estado atual
             self.advance()
         else:
             raise SyntaxError(f"Esperava '{expected_token}', mas recebi '{self.current_token.token_type}'.")
@@ -338,8 +338,7 @@ class Parser:
                 self.print_tree(child, indent + '  ')
 
 
-tokens = analisador_lexico.gera_tokens()
 
-parser = Parser(tokens)
-tree = parser.parse()
-parser.print_tree(tree)
+# parser = Parser(tokens)
+# tree = parser.parse()
+# parser.print_tree(tree)
