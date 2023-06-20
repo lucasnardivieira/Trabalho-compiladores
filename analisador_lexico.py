@@ -1,6 +1,6 @@
 import re
 
-with open("teste.c", "r") as arquivo:
+with open("teste1.c", "r") as arquivo:
     codigo = arquivo.read()
 
 def match(lexem): # Essa função retorna o nome(descrição) do lexema
@@ -121,9 +121,9 @@ for i in codigo:
 
 	if ord(i) > 127:
 		flag_erro = True
-		break
-if(flag_erro):
-	print("ERRO: CARACTERE INVALIDO: ", i)
+		# break
+# if flag_erro:
+# 	print("ERRO: CARACTERE INVALIDO: ", i)
 
 # ETAPA 2
 # Criação dos tokens {nome_tk, nome_tab, pos_tab}

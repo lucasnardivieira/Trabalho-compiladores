@@ -99,7 +99,7 @@ class Parser:
     def content(self):
         node = Node('<content>')
         print(self.current_token.token_type)
-        while self.current_token and self.current_token.token_type in ['TK_DT_INTEGER', 'TK_DT_CHAR', 'TK_STRING', 'TK_DT_FLOAT', 'TK_PRINT', 'TK_SCANF', 'TK_IF', 'TK_WHILE']:
+        while self.current_token and self.current_token.token_type in ['TK_DT_INTEGER', 'TK_DT_CHAR', 'TK_DT_STRING', 'TK_DT_FLOAT', 'TK_PRINT', 'TK_SCANF', 'TK_IF', 'TK_WHILE']:
             if self.current_token.token_type in ['TK_DT_INTEGER', 'TK_DT_CHAR', 'TK_STRING']:
                 node.add_child(self.variableDeclaration())
             elif self.current_token.token_type == 'TK_PRINT':

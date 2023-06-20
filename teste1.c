@@ -12,7 +12,7 @@ mushroom_kingdom() {
 
     koopa (x > 0) {
         yoshi("X é positivo");
-    } koopa_troopa {
+    } koopatroopa {
         yoshi("X é negativo");
     }
 
