@@ -337,8 +337,3 @@ class Parser:
             for child in node.children:
                 self.print_tree(child, indent + '  ')
 
-
-
-# parser = Parser(tokens)
-# tree = parser.parse()
-# parser.print_tree(tree)
