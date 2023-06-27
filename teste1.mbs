@@ -11,9 +11,9 @@ mushroom_kingdom() {
     yoshi("Hello, world!");
 
     koopa (x > 0) {
-        yoshi("X é positivo");
+        yoshi("X eh positivo");
     } koopatroopa {
-        yoshi("X é negativo");
+        yoshi("X eh negativo");
     }
 
     luma (z > 0) {

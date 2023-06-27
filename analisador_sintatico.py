@@ -1,4 +1,4 @@
-import analisador_lexico 
+import analisador_lexico
 
 class Token: # É preciso transformar os tokens da lista nessa estrutura para gerar a árvore
     def __init__(self, token_type, value):
@@ -40,7 +40,7 @@ class Parser:
             # print("Token atual:" + self.current_token.token_type + "( " + self.current_token.value + " )") # Para acompanhar o estado atual
             self.advance()
         else:
-            raise SyntaxError(f"Esperava '{expected_token}', mas recebi '{self.current_token.token_type}'.")
+            raise SyntaxError(f"Esperava '{expected_token}', mas recebi '{self.current_token.token_type}, linha '{self.current_token.linha}'.")
 
     # <init> ::= {functionDeclaration}<mainFunction>
     def init(self):
@@ -93,12 +93,12 @@ class Parser:
         self.match('TK_OK')
         node.add_child(self.content())
         self.match('TK_CK')
+        
         return node
 
     # <content> ::= <variableDeclaration> | <output> | <input> | <selectionStructure> | <loop>
     def content(self):
         node = Node('<content>')
-        print(self.current_token.token_type)
         while self.current_token and self.current_token.token_type in ['TK_DT_INTEGER', 'TK_DT_CHAR', 'TK_DT_STRING', 'TK_DT_FLOAT', 'TK_PRINT', 'TK_SCANF', 'TK_IF', 'TK_WHILE']:
             if self.current_token.token_type in ['TK_DT_INTEGER', 'TK_DT_CHAR', 'TK_STRING']:
                 node.add_child(self.variableDeclaration())
